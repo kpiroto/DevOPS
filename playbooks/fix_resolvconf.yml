@@ -1,0 +1,11 @@
+---
+- name: Fix resolv.conf file
+  hosts: "{{ target | default('lab') }}"
+  tasks:
+    - name: Copy resolv.conf
+      copy: >
+        src=../files/resolv.conf.lab
+        dest=/etc/resolv.conf
+        owner=root
+        group=root
+        mode=0644

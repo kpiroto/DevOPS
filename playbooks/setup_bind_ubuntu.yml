@@ -1,0 +1,41 @@
+---
+- name: Setup bind 9 at Ubuntu with lab zone
+  hosts: "{{ target | default('ĺocal') }}"
+  vars:
+    - bind_forward: '10.10.5.11'
+  tasks:
+
+    - name: Install bind9
+      apt: >
+        name=bind9
+        state=present
+        update_cache=yes
+    - name: Include lab zone into named.conf.local
+      copy: >
+        src=../files/named.conf.local.lab
+        dest=/etc/bind/named.conf.local
+        mode=0644
+        owner=root
+        group=bind
+        force=no
+    - name: Configure hosts into lab zone file
+      copy: >
+        src=../files/db.lab
+        dest=/var/cache/bind/db.lab
+        mode=0644
+        owner=root
+        group=bind
+        force=no
+    - name: Configure bind options
+      template: >
+        src=../files/named.conf.options.tpl
+        dest=/etc/bind/named.conf.options
+        mode=0644
+        owner=root
+        group=bind
+        force=no
+    - name: Restart bind
+      service: >
+        name=bind9
+        state=restarted
+        enabled=yes
