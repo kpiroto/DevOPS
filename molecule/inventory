@@ -1,0 +1,11 @@
+localhost
+[openldap-servers]
+node1.lab
+node2.lab
+
+[test-servers]
+node3.lab
+
+[lab:children]
+openldap-servers
+test-servers

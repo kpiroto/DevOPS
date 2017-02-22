@@ -1,0 +1,55 @@
+---
+vagrant:
+  platforms:
+    - name: centos-7
+      box: Centos/7
+  providers:
+    - name: virtualbox
+      type: virtualbox
+      options:
+        memory: 512
+        cpus: 1
+  raw_config_args:
+    - "vm.provider :virtualbox do |vb| vb.customize ['modifyvm', :id, '--cableconnected1', 'on'] end"
+
+  instances:
+    - name: node1.lab
+      ansible_groups:
+        - openldap-servers
+        - test-servers
+        - lab:children:
+          - openldap-servers
+          - test-servers
+      interfaces:
+        - network_name: private_network
+          type: static
+          ip: "192.168.30.20"
+          auto_config: true
+    - name: node2.lab
+      ansible_groups:
+        - openldap-servers
+      interfaces:
+        - network_name: private_network
+          type: static
+          ip: "192.168.30.21"
+          auto_config: true
+    - name: node3.lab
+      ansible_groups:
+        - test-servers
+      interfaces:
+        - network_name: private_network
+          type: static
+          ip: "192.168.30.22"
+          auto_config: true
+
+ansible:
+  playbook: tests/playbook.yml
+
+verifier:
+  name: testinfra
+
+molecule:
+  ignore_paths:
+  - .git
+  - .vagrant
+  - .molecule
