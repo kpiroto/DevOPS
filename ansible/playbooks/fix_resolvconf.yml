@@ -1,6 +1,6 @@
 ---
 - name: Fix resolv.conf file
-  hosts: "{{ target | default('lab') }}"
+  hosts: "{{ target | default('all') }}"
   tasks:
     - name: Copy resolv.conf
       copy: >
