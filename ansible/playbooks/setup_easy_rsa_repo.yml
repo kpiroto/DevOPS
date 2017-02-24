@@ -4,7 +4,7 @@ hosts: "{{ target | default('ĺocalhost') }}"
 vars:
   - ca_key_path: ''
     git_repo_url: ''
-    git_repo_version: ''
+    git_repo_version: 'HEAD'
     openvpn_user: 'openvpn'
   tasks:
 
