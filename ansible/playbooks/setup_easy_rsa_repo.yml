@@ -1,0 +1,53 @@
+---
+hosts: "{{ target | default('ĺocalhost') }}"
+# Requirede vars:
+vars:
+  - ca_key_path: ''
+    git_repo_url: ''
+    git_repo_version: ''
+    openvpn_user: 'openvpn'
+  tasks:
+
+  - name: Clone "{{ ca_repo }}" repo
+    git: >
+     accept_hostkey=yes
+     clone=yes
+     dest="{{ ca_key_path }}"
+     key_file="{{ lookup('file', '~/.ssh/id_rsa') }}"
+     repo="{{ git_repo_url }}"
+     version="{{ git_repo_version }}"
+    tags: configure, openvpn, skip_ansible_lint
+  
+  - name: Create symlink to keys folder
+    file: >
+     src="{{ ca_key_path }}"/easy-rsa/keys
+     path=/etc/openvpn/keys
+     state=link
+    tags: configure, openvpn
+  
+  - name: Create criaclients.sh script
+    template: >
+      src=criaclients.sh.tpl
+      dest="{{ ca_key_path }}/easy-rsa/criaclients.sh"
+      mode=0700
+      owner="{{ openvpn_user }}"
+      group="{{ openvpn_user }}"
+    tags: configure, openvpn
+  
+  - name: Create configs_temp folder
+    file: >
+      state=directory
+      mode=0755
+      owner="{{ openvpn_user }}"
+      group="{{ openvpn_user }}"
+      path="{{ ca_key_path }}/easy-rsa/configs_temp"
+    tags: configure, openvpn
+  
+  - name: Create configs folder
+    file: >
+      state=directory
+      mode=0755
+      owner="{{ openvpn_user }}"
+      group="{{ openvpn_user }}"
+      path="{{ ca_key_path }}/easy-rsa/configs"
+    tags: configure, openvpn
