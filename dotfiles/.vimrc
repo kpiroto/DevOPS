@@ -1,5 +1,7 @@
 " Vundle.vim setup
 " https://github.com/VundleVim/Vundle.vim
+" Install:
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim 
 
 set nocompatible
 filetype off
@@ -70,4 +72,3 @@ set fileformats=unix,dos,mac
 
 au! Bufread,BufNewFile *.yml set ft=ansible
 au! Bufread,BufNewFile *.tpl set ft=ansible_template
-

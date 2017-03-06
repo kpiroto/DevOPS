@@ -107,4 +107,4 @@ function parse_git_dirty {
 		echo ""
 	fi
 }
-export PS1="\[\e[34m\]\u\[\e[m\]\[\e[40m\]@\[\e[m\]\[\e[35m\]\h\[\e[m\][\w]\`parse_git_branch\`\n\A>\[$(tput sgr0)\]\\$ "
+export PS1="\[\e[34m\]\u\[\e[m\]\[\e[40m\]@\[\e[m\]\[\e[35m\]\h\[\e[m\][\w]\`parse_git_branch\`\n\[$(tput sgr0)\]\A>\\$ "
