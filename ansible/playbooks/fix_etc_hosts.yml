@@ -1,0 +1,9 @@
+---
+- name: Fix /etc/hosts file
+  hosts: "{{ target | default('all') }}"
+  tasks:
+    - name: Fix /etc/hosts file
+      lineinfile: >
+        dest=/etc/hosts
+        regexp='127.0.0.1	*.lab'
+        state=absent

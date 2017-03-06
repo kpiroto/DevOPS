@@ -9,3 +9,7 @@
         owner=root
         group=root
         mode=0644
+
+    - name: ifup eth1
+      shell: 'ifup eth1'
+      ignore_errors: yes
